@@ -1,0 +1,19 @@
+[
+{
+  "directory": "/project/build",
+  "command": "/usr/bin/g++-10     -std=c++20 -O3 -DNDEBUG   -pthread -std=gnu++2a -o CMakeFiles/matrix_merge.dir/matrix_merge.cpp.o -c /project/src/matrix_merge.cpp",
+  "file": "/project/src/matrix_merge.cpp"
+},
+
+{
+  "directory": "/project/build",
+  "command": "/usr/bin/g++-10     -std=c++20 -O3 -DNDEBUG   -pthread -std=gnu++2a -o CMakeFiles/gwas_tools.dir/mmap_io.cpp.o -c /project/src/mmap_io.cpp",
+  "file": "/project/src/mmap_io.cpp"
+},
+
+{
+  "directory": "/project/build",
+  "command": "/usr/bin/g++-10     -std=c++20 -O3 -DNDEBUG   -pthread -std=gnu++2a -o CMakeFiles/kmer_count.dir/kmer_count.cpp.o -c /project/src/kmer_count.cpp",
+  "file": "/project/src/kmer_count.cpp"
+}
+]
