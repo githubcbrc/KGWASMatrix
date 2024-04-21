@@ -1,5 +1,4 @@
-# KGWASMatrix
-An optimized workflow for producing k-mer count matrices for large GWAS panels.
+# KGWASMatrix: An optimized workflow for producing k-mer count matrices for large GWAS panels.
 For a detailed description of the parallalization of the k-mer count pipeline, please refer to KGWAS.pdf. 
 
 # Installing and Running the Executables
@@ -27,5 +26,9 @@ Next run the installation script:
 ./install.sh
 ``
 
-This will build the docker image and start the container for compiling (and preferably running) the executables. By the time the installation finishes you should have a build folder with two main executables:
+This will build the docker image and start the container for compiling the source code (and preferably running the executables). By the time the installation finishes you should have a build folder with two main executables:
 ``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline.
+
+#Program Parameters
+
+#HPC Job Examples
