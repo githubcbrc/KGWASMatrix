@@ -29,6 +29,6 @@ Next run the installation script:
 This will build the docker image and start the container for compiling the source code (and preferably running the executables). By the time the installation finishes you should have a build folder with two main executables:
 ``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline.
 
-#Program Parameters
+# Program Parameters
 
-#HPC Job Examples
+# HPC Job Examples
