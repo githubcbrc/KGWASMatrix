@@ -8,15 +8,17 @@ The following steps detail how to install and run the k-mer GWAS matrix generati
 First, create a workspace folder, e.g. KMGWASMatrix:
 
 ``
-mkdir KGWASMatrix  
+mkdir KGWASMatrix;    
 cd KGWASMatrix
 ``
 
 Then clone this repo into the workspace:
+``
 git clone git@github.com:githubcbrc/KGWASMatrix.git .
-
+``
 Next run the installation script:
+``
 ./install.sh
-
+``
 This will build the docker image and start the container for compiling (and preferably running) the executables. By the time the installation finishes you should have a build folder with two main executables:
-kmer_count and matrix_merge, which are all that is needed to run the pipeline.
+``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline.
