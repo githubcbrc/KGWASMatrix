@@ -8,9 +8,7 @@ The following steps detail how to install and run the k-mer GWAS matrix generati
 First, create a workspace folder, e.g. KMGWASMatrix:
 
 ``
-mkdir KGWASMatrix
-``
-``
+mkdir KGWASMatrix  
 cd KGWASMatrix
 ``
 
