@@ -6,10 +6,14 @@ For a detailed description of the parallalization of the k-mer count pipeline, p
 The following steps detail how to install and run the k-mer GWAS matrix generation pipeline.
 
 First, create a workspace folder, e.g. KMGWASMatrix:
+
 ``
 mkdir KGWASMatrix
+``
+``
 cd KGWASMatrix
 ``
+
 Then clone this repo into the workspace:
 git clone git@github.com:githubcbrc/KGWASMatrix.git .
 
