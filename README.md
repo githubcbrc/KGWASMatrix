@@ -59,7 +59,7 @@ kmer_count A123 200 ./output
 
 For example, `kmer_count A123 200 ./output` would load the reads of accession A123 from the `./data` folder, index the k-mer occurence using 200 bins, and write the results into the `./output` folder. This will create 200 files, one accession index per bin:
 
-```
+```bash
 ./output/A123/1_nr.tsv
 ./output/A123/2_nr.tsv
 ...
