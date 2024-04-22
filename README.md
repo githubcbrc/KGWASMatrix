@@ -30,16 +30,23 @@ This will build the docker image and start the container for compiling the sourc
 
 `kmer_count` expects three parameters: `<accession>, <number of files>, and <output folder path>`. `accession` is the name of the accession, e.g. A123, which would load the reads from the two files: `./data/A123_1.fq` and `./data/A123_2.fq` as mentioned. `number of files` is the number of k-mer bins that would be used for sharding the k-mer index, and defines the level of parallelism for the ``matrix_merge`` phase. `output path` is the desired location for writing binned k-mer count results.
 
-For example, `kmer_count A123 200 ./output` would load the reads of accession A123 from the `./data` folder, index the k-mer occurence using 200 bins, and write the results into the `./output` folder. This will create 200x2 files; a `keys.dat` and `values.dat` file per bin:
+For example, `kmer_count A123 200 ./output` would load the reads of accession A123 from the `./data` folder, index the k-mer occurence using 200 bins, and write the results into the `./output` folder. This will create 200 files:
 
 ```
-./output/A123/1/keys.dat
-./output/A123/1/values.dat
+./output/A123/1_nr.tsv
+./output/A123/2_nr.tsv
 ...
-./output/A123/200/keys.dat
-./output/A123/200/values.dat
+./output/A123/200_nr.tsv
 ```
 
-# Program Parameters
+These are produced in parallel by splitting the accession files into `NUM_CHUNKS` chunks, creating a task per chunk, and running a thread pool to execute the tasks. So, NUM_CHUNKS governs the granularity of the parallelism for this phase, but the level of parallelism is defined by the number of threads in the pool (the current code uses all available threads on a computational node), users can tweak that if they so wish. `NUM_CHUNKS` is currently hard-coded for performance reasons (use of arrays instead of vectors), but this will be revised in the future.
+
+Once k-mer counts are done, all is left is to merge all the bins with the same index into a "matrix bin", and for that we use ``matrix_merge``. In a nutshell, `matrix_merge` takes all the files with the same name, and merges them into one index.
+
+
+
+
+
+
 
 # HPC Job Examples
