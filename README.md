@@ -52,7 +52,7 @@ ln -s /path_to_large_data ./data
 ```
 
 
-Alternatively, you may amend the ``start_container.sh`` script to mount your external data path directly into the ``./data`` directory within the container by adding another volume mapping to the ``docker run command``. Here is how you can adjust the ``docker run`` command to include a specific data volume:
+Or, amending the ``start_container.sh`` script to mount your external data path directly into the ``./data`` directory within the container by adding another volume mapping to the ``docker run command``. Here is how you can adjust the ``docker run`` command to include a specific data volume:
 
 ```bash
 id=$(docker run --rm -d --name ${cont} -it -v $projectDir:/project -v $dataDir:/project/data ${img})
