@@ -115,14 +115,14 @@ Once k-mer counts are done, all is left is to merge all the bins with the same i
 K-mers with a frequency below this threshold are excluded (`frequency < minimum threshold`).
 K-mers with a frequency exceeding the complement of this threshold relative to the panel size are also excluded (i.e., `frequency > panel size - minimum threshold`).
 
-For example, `matrix_merge ./output accessions.txt 35 6` will look for all folders under `./output` with names in `accessions.txt`, and merge all bins with index 35:  
-```
+For example, `matrix_merge ./output accessions.txt 35 6` will look for all folders under `./output` with names in `accessions.txt`, and merge all bins with index 35: 
+```bash
 ./output/A100/35_nr.tsv
 ./output/A101/35_nr.tsv
 ...
 ./output/A123/35_nr.tsv
 ```
-This creates a binary matrix (using a k-mer minimum occurence of 6 for establishing presence), which is saved under `matrix_6/35_m.tsv`. Concatinating these results in the full k-mer GWAS matrix.
+This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatinating these results in the full k-mer GWAS matrix.
 
 
 
