@@ -49,7 +49,7 @@ mv path_to_your_sequencing_data/* ./data/
 If the data size is large, either consider using a simbolic link, or amending the ``start_container.sh`` script to mount your external data path directly into the ``./data`` directory within the container:
 ```bash
 ln -s /path_to_large_data ./data
-```bash
+```
 
 ## Usage Instructions
 ### K-mer Counting
