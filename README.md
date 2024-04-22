@@ -27,7 +27,10 @@ Next run the installation script:
 ``
 
 This will build the docker image and start the container for compiling the source code (and preferably running the executables). By the time the installation finishes you should have a build folder with two main executables:
-``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline. You can run these from here, or move them to a bin folder and them to your $PATH. For running on a HPC cluster without headache, it is preferable to convert the docker image into singularity and run singularity instances on the cluster. 
+``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline. You can run these from here, or move them to a bin folder and them to your $PATH. For running on a HPC cluster, it is preferable to convert the docker image into singularity and run singularity instances on the cluster (using singularity exec). Running the executables directly is also possible as long as the necessary libraries are installed.
+
+`kmer_count` operates on accession files
+
 
 # Program Parameters
 
