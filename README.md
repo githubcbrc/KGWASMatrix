@@ -13,17 +13,19 @@ To install and set up the KGWASMatrix pipeline, follow these steps:
    ```bash
    mkdir KGWASMatrix
    cd KGWASMatrix
+   ```
 
 
 2. **Clone the github repository:**
    ```bash
    git clone git@github.com:githubcbrc/KGWASMatrix.git .
-
+   ```
 
 3. **Run the installation script:**
 
 ```bash
 ./install.sh
+```
 
 
 This will build the docker image and start the container for compiling the source code (and preferably running the executables). By the time the installation finishes you should have a ``./build`` folder with two main executables:
