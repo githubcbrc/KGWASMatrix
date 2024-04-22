@@ -175,3 +175,34 @@ do
   sbatch submit_kmer_count.sh "$accession" 200 ./output
 done < "accessions.txt"
 ```
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=matrix_merge_job   # Job name
+#SBATCH --nodes=1                     # Number of nodes
+#SBATCH --mem=256G                     # Memory per node
+#SBATCH --time=05:00:00               # Time limit hrs:min:sec
+#SBATCH --output=matrix_merge_%j.log  # Standard output and error log
+
+# Assuming matrix_merge is already built and available under ./build/
+cd /your/project/directory
+
+# Ensure the command line parameters are passed
+if [ "$#" -ne 4 ]; then
+  echo "Usage: sbatch $0 <output path> <accessions path> <bin index> <min occurrence threshold>"
+  exit 1
+fi
+
+# Access command-line arguments
+OUTPUT_PATH=$1
+ACCESSIONS_PATH=$2
+FILE_INDEX=$3
+MIN_OCCURRENCE_THRESHOLD=$4
+
+# Run matrix_merge
+./build/matrix_merge $OUTPUT_PATH $ACCESSIONS_PATH $FILE_INDEX $MIN_OCCURRENCE_THRESHOLD
+
+# Example command usage:
+# sbatch submit_matrix_merge.sh ./output accessions.txt 35 6
+```
+
