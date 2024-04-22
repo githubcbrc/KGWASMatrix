@@ -45,6 +45,14 @@ Once k-mer counts are done, all is left is to merge all the bins with the same i
 
 `matrix_merge` expects the following parameters: `<input path>, <accessions path>, <file index>, and <min occurence threshold (across panel)>`. `input path` is just the output path from the previous phase, or wherever the binned k-mers count index is saved. `accessions path` is the path to the file containing all accessions names, one per line (see ``accessions.txt`` for an example). `file index` is the bin number for the current merge. `min occurence threshold` is the minimum k-mer frequency for considering a k-mer present in the accession. As a matter of fact, this is a bit of misnomer as it is applied symmetrically, in the sense that k-mers with ``frequency < minimum threshold || frequency > panel size - minimum threshold`` have their counts set to zero against the corresponding accession.
 
+For example, `matrix_merge ./output accessions.txt 35 6` will look for all folders under `./output` with names in `accessions.txt`, and merge all bins with index 35:  
+```
+./output/A100/35_nr.tsv
+./output/A101/35_nr.tsv
+...
+./output/A123/35_nr.tsv
+```
+This creates a binary matrix (using a k-mer minimum occurence of 6 for establishing presence), which is saved under `matrix_6/35_m.tsv`
 
 
 
