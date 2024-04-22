@@ -39,7 +39,8 @@ After the installation the ``./build`` folder will contain two key executables:`
 
 ### Data Preparation
 
-`kmer_count` operates on accession files, and expects ``fastq`` files under the `./data` folder. The accession paths are presumed to be for paired-end sequencing data files (mainly because this was our use case, but we intend to accomodate more cases in the future by exposing a number of options to the user). Therefore, the data folder is expected to have two files per accession, e.g.: `./data/A123_1.fq` and `./data/A123_2.fq` for accession A123. To proceed, create the data folder at the root of the project, and move your sequencing data there in the format described. If the data size is large, either use a simlink or amend the ``start_container.sh`` script to mount your data path into `./data`. 
+The ``kmer_count`` executable operates on accession files and requires FASTQ files to be located in the ``./data`` folder. The current setup primarily supports paired-end sequencing data files, (mainly because this was out use case). For each accession, you should have two files: for example, ``./data/A123_1.fq`` and ``./data/A123_2.fq`` for accession ``A123``. In the future, we plan to expand the utility's flexibility by introducing additional options to accommodate a wider range of sequencing data types.
+ To proceed, create the data folder at the root of the project, and move your sequencing data there in the format described. If the data size is large, either use a simlink or amend the ``start_container.sh`` script to mount your data path into `./data`. 
 ```bash
 mkdir ./data
 mv path_to_your_sequencing_data/* ./data/
