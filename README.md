@@ -122,7 +122,7 @@ For example, `matrix_merge ./output accessions.txt 35 6` will look for all folde
 ...
 ./output/A123/35_nr.tsv
 ```
-This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatinating these results in the full k-mer GWAS matrix.
+This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatinating these partial matrices results in the full k-mer GWAS matrix.
 
 
 
