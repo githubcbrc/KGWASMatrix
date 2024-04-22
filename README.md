@@ -37,9 +37,13 @@ For example, `kmer_count A123 200 ./output` would load the reads of accession A1
 
 ``
 ./output/A123/1/keys.dat
+
 ./output/A123/1/values.dat
+
 ...
+
 ./output/A123/200/keys.dat
+
 ./output/A123/200/values.dat
 ``
 
