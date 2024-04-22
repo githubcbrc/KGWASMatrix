@@ -30,7 +30,6 @@ To install and set up the KGWASMatrix pipeline, follow these steps:
 If you inspect the installation script, you can see that all is does is build a docker image, and spin up a container for compiling the source code (and preferably running the executables).
    ```bash
    #!/bin/bash
-   
    cd init
    bash ../scripts/build_img.sh #--no-cache
    bash ../scripts/start_cont.sh
