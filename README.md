@@ -46,10 +46,24 @@ The ``kmer_count`` executable operates on accession files and requires FASTQ fil
 mkdir ./data
 mv path_to_your_sequencing_data/* ./data/
 ```
-If the data size is large, either consider using a simbolic link, or amending the ``start_container.sh`` script to mount your external data path directly into the ``./data`` directory within the container:
+If the data size is large, either consider using a simbolic link, 
 ```bash
 ln -s /path_to_large_data ./data
 ```
+
+
+Alternatively, you may amend the ``start_container.sh`` script to mount your external data path directly into the ``./data`` directory within the container by adding another volume mapping to the ``docker run command``. Here is how you can adjust the ``docker run`` command to include a specific data volume:
+
+```bash
+id=$(docker run --rm -d --name ${cont} -it -v $projectDir:/project -v $dataDir:/project/data ${img})
+```
+In this command:
+
+``$dataDir`` represents the path on your host system where your data is stored that you want to be accessible from within the container.
+``/project/data`` is the path inside the container where this data will be accessible. This corresponds to the expected location where kmer_count will look for FASTQ files.
+
+
+
 
 ## Usage Instructions
 ### K-mer Counting
