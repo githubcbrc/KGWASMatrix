@@ -55,7 +55,7 @@ kmer_count <accession> <number of bins> <output folder>
 ```bash
 kmer_count A123 200 ./output
 ```
-`kmer_count` expects three parameters: `<accession>, <number of files>, and <output folder path>`. `accession` is the name of the accession, e.g. A123, which would load the reads from the two files: `./data/A123_1.fq` and `./data/A123_2.fq` as mentioned. `number of files` is the number of k-mer bins that would be used for sharding the k-mer index, and defines the granularity of parallelism for the ``matrix_merge`` phase. `output path` is the desired location for writing binned k-mer count results.
+`kmer_count` expects three parameters: ``<accession>``, ``<number of bins>``, and ``<output folder>``. **accession** is the name of the accession, e.g. A123, which would be used to load the reads from the two files: `./data/A123_1.fq` and `./data/A123_2.fq` as mentioned. **number of bins** is the number of k-mer bins that would be used for sharding the k-mer index, and defines the granularity of parallelism for the ``matrix_merge`` phase. **output folder** is the desired location for writing binned k-mer count results.
 
 For example, `kmer_count A123 200 ./output` would load the reads of accession A123 from the `./data` folder, index the k-mer occurence using 200 bins, and write the results into the `./output` folder. This will create 200 files, one accession index per bin:
 
