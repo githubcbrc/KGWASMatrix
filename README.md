@@ -130,8 +130,8 @@ This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizin
 
 
 ## HPC Job Examples
-
-Here is a basic SLURM job script example for running the ``kmer_count`` command on an HPC cluster using SLURM as the job scheduler. 
+**k-mer count**
+Here is a basic SLURM job script example for running the ``kmer_count`` command on an HPC cluster. 
 
 ```bash
 #!/bin/bash
@@ -164,7 +164,9 @@ OUTPUT_DIR=$3
 # Note: Run this script by submitting it through SLURM with:
 # sbatch submit_kmer_count.sh A123 200 ./output
 ```
-Suppose you have a file named accessions.txt where each line contains an accession number. You can write a wrapper script that reads each accession from the file and submits a job for it.
+
+**Script for Submitting Jobs for All Accessions (submit_all_accessions.sh)**
+Suppose you have a file named ``accessions.txt`` where each line contains an accession number. You can write a wrapper script that reads each accession from the file and submits a job for it.
 
 ```bash
 #!/bin/bash
@@ -176,6 +178,8 @@ do
 done < "accessions.txt"
 ```
 
+**matrix_merge**
+Here is an example of a SLURM job script for running the ``matrix_merge`` command. 
 ```bash
 #!/bin/bash
 #SBATCH --job-name=matrix_merge_job   # Job name
@@ -204,5 +208,34 @@ MIN_OCCURRENCE_THRESHOLD=$4
 
 # Example command usage:
 # sbatch submit_matrix_merge.sh ./output accessions.txt 35 6
+```
+
+**Script for Submitting Jobs for All Bins (submit_all_bins.sh)**
+This script will take parameters for the output path, accessions list, and minimum occurrence threshold, and then loop through each bin index to submit a job.
+```bash
+#!/bin/bash
+
+# Check for required command line arguments
+if [ "$#" -ne 3 ]; then
+  echo "Usage: $0 <output path> <accessions path> <min occurrence threshold>"
+  exit 1
+fi
+
+# Assign command-line arguments to variables
+OUTPUT_PATH=$1
+ACCESSIONS_PATH=$2
+MIN_OCCURRENCE_THRESHOLD=$3
+
+# Number of bins - adjust this according to your specific setup
+TOTAL_BINS=200
+
+# Loop over each bin index
+for (( bin=1; bin<=TOTAL_BINS; bin++ ))
+do
+  # Submit a SLURM job for each bin
+  sbatch submit_matrix_merge.sh $OUTPUT_PATH $ACCESSIONS_PATH $bin $MIN_OCCURRENCE_THRESHOLD
+done
+
+echo "Submitted matrix merge jobs for all $TOTAL_BINS bins."
 ```
 
