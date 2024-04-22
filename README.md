@@ -131,7 +131,7 @@ This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizin
 
 ## HPC Job Examples
 
-Here's a basic SLURM job script example for running the ``kmer_count`` command on an HPC cluster using SLURM as the job scheduler. 
+Here is a basic SLURM job script example for running the ``kmer_count`` command on an HPC cluster using SLURM as the job scheduler. 
 
 ```bash
 #!/bin/bash
