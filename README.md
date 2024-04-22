@@ -14,28 +14,16 @@ To install and set up the KGWASMatrix pipeline, follow these steps:
    mkdir KGWASMatrix
    cd KGWASMatrix
 
-# KGWASMatrix: An optimized workflow for producing k-mer count matrices for large GWAS panels.
-For a detailed description of the parallalization of the k-mer count pipeline, please refer to KGWAS.pdf. 
 
-# Installing and Running the Executables
-The following steps detail how to install and run the k-mer GWAS matrix generation pipeline.
+2. **Clone the github repository:**
 
-First, create a workspace folder, e.g. KMGWASMatrix:
-
-```
-mkdir KGWASMatrix
-cd KGWASMatrix
-```
-
-Then clone this github repo into the workspace:
-
-``
+```bash
 git clone git@github.com:githubcbrc/KGWASMatrix.git .
-``
 
-Next run the installation script:
 
-``
+3. **Run the installation script:**
+
+```bash
 ./install.sh
 ``
 
