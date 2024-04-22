@@ -11,7 +11,7 @@ mkdir KGWASMatrix
 cd KGWASMatrix
 ```
 
-Then clone this repo into the workspace:
+Then clone this github repo into the workspace:
 
 ``
 git clone git@github.com:githubcbrc/KGWASMatrix.git .
