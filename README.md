@@ -92,7 +92,7 @@ For example, `kmer_count A123 200 ./output` would load the reads of accession A1
 ./output/A123/200_nr.tsv
 ```
 
-These are produced in parallel by splitting the accession files into `NUM_CHUNKS` chunks, creating a task per chunk, and running a thread pool to execute the tasks. So, ``NUM_CHUNKS`` governs the granularity of the parallelism for this phase, but the level of parallelism is defined by the number of threads in the pool (the current code uses all available threads on a computational node to maximize resource utilisation, but users can tweak that if they so wish). `NUM_CHUNKS` defines how the data is partitioned into chunks for parallel processing during this first phase. While ``NUM_CHUNKS`` is currently hard-coded to optimize performance through static array usage, future revisions may introduce dynamic configurations to increase flexibility. Access to the files is synchronized using a mutex array.
+These are produced in parallel by splitting the accession files into `NUM_CHUNKS` chunks, creating a task per chunk, and running a thread pool to execute the tasks. So, ``NUM_CHUNKS`` governs the granularity of the parallelism for this phase, but the level of parallelism is defined by the number of threads in the pool (the current code uses all available threads on a computational node to maximize resource utilisation, but users can tweak that if they so wish). While ``NUM_CHUNKS`` is currently hard-coded to optimize performance through static array usage, future revisions may introduce dynamic configurations to increase flexibility. Access to the files is synchronized using a mutex array.
 
 ### Merging K-mer Bins
 **Command:**
