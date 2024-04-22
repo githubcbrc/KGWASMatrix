@@ -60,7 +60,7 @@ id=$(docker run --rm -d --name ${cont} -it -v $projectDir:/project -v $dataDir:/
 In this command:
 
 ``$dataDir`` represents the path on your host system where your data is stored that you want to be accessible from within the container.
-``/project/data`` is the path inside the container where this data will be accessible. This corresponds to the expected location where kmer_count will look for FASTQ files.
+``/project/data`` is the path inside the container where this data will be accessible. This corresponds to the expected location where kmer_count will look for FASTQ files. This latter option is not practical for HPC scenarios, but in such cases, data transfer is usually unavoidable.
 
 
 
