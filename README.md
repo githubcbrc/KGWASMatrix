@@ -39,7 +39,7 @@ For example, `kmer_count A123 200 ./output` would load the reads of accession A1
 ./output/A123/200_nr.tsv
 ```
 
-These are produced in parallel by splitting the accession files into `NUM_CHUNKS` chunks, creating a task per chunk, and running a thread pool to execute the tasks. So, NUM_CHUNKS governs the granularity of the parallelism for this phase, but the level of parallelism is defined by the number of threads in the pool (the current code uses all available threads on a computational node), users can tweak that if they so wish. `NUM_CHUNKS` is currently hard-coded for performance reasons (use of arrays instead of vectors), but this will be revised in the future.
+These are produced in parallel by splitting the accession files into `NUM_CHUNKS` chunks, creating a task per chunk, and running a thread pool to execute the tasks. So, NUM_CHUNKS governs the granularity of the parallelism for this phase, but the level of parallelism is defined by the number of threads in the pool (the current code uses all available threads on a computational node), users can tweak that if they so wish. `NUM_CHUNKS` is currently hard-coded for performance reasons (use of arrays instead of vectors), but this will be revised in the future. Access to the files is synchronized using a mutex array.
 
 Once k-mer counts are done, all is left is to merge all the bins with the same index into a "matrix bin", and for that we use ``matrix_merge``. In a nutshell, `matrix_merge` takes all the files with the same name from different accessions, and merges them into one index.
 
