@@ -76,7 +76,7 @@ kmer_count <accession> <number of bins> <output folder>
 kmer_count A123 200 ./output
 ```
 
-The kmer_count tool requires three parameters to operate: ``<accession>``, ``<number of bins>``, and ``<output folder>``.
+The ``kmer_count`` tool requires three parameters to operate: ``<accession>``, ``<number of bins>``, and ``<output folder>``.
 
 1. **accession:** This parameter specifies the name of the accession (e.g., A123). It is used to identify and load the corresponding paired-end sequencing data files, e.g. ``./data/A123_1.fq`` and ``./data/A123_2.fq``.
 2. **number of bins:** This indicates how many k-mer bins to create, which are used to shard the k-mer index. This number directly influences the granularity of parallelism during the ``matrix_merge`` phase.
