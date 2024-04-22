@@ -129,4 +129,46 @@ This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizin
 
 
 
-# HPC Job Examples
+## HPC Job Examples
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=kmer_count_job       # Job name
+#SBATCH --nodes=1                       # Number of nodes
+#SBATCH --mem=256G                       # Memory needed per node
+#SBATCH --time=10:00:00                 # Time limit hrs:min:sec
+#SBATCH --output=kmer_count_%j.log      # Standard output and error log
+
+# Set environment variables (if needed)
+export OMP_NUM_THREADS=$(nproc)
+
+# Move to the directory where the data is located (edit accordingly)
+cd /your/project/directory
+
+# Check if all parameters are provided
+if [ "$#" -ne 3 ]; then
+    echo "Usage: sbatch $0 <accession> <number of bins> <output directory>"
+    exit 1
+fi
+
+# Access command-line arguments
+ACCESSION=$1
+NUM_BINS=$2
+OUTPUT_DIR=$3
+
+# Run kmer_count
+./build/kmer_count $ACCESSION $NUM_BINS $OUTPUT_DIR
+
+# Note: Run this script by submitting it through SLURM with:
+# sbatch this_script.sh A123 200 ./output
+```
+
+```bash
+#!/bin/bash
+
+# Loop through each line in accessions.txt
+while IFS= read -r accession
+do
+  sbatch submit_kmer_count.sh "$accession" 200 ./output
+done < "accessions.txt"
+```
