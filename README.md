@@ -16,9 +16,8 @@ To install and set up the KGWASMatrix pipeline, follow these steps:
 
 
 2. **Clone the github repository:**
-
-```bash
-git clone git@github.com:githubcbrc/KGWASMatrix.git .
+   ```bash
+   git clone git@github.com:githubcbrc/KGWASMatrix.git .
 
 
 3. **Run the installation script:**
