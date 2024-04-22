@@ -131,6 +131,8 @@ This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizin
 
 ## HPC Job Examples
 
+Here's a basic SLURM job script example for running the ``kmer_count`` command on an HPC cluster using SLURM as the job scheduler. 
+
 ```bash
 #!/bin/bash
 #SBATCH --job-name=kmer_count_job       # Job name
@@ -160,8 +162,9 @@ OUTPUT_DIR=$3
 ./build/kmer_count $ACCESSION $NUM_BINS $OUTPUT_DIR
 
 # Note: Run this script by submitting it through SLURM with:
-# sbatch this_script.sh A123 200 ./output
+# sbatch submit_kmer_count.sh A123 200 ./output
 ```
+Suppose you have a file named accessions.txt where each line contains an accession number. You can write a wrapper script that reads each accession from the file and submits a job for it.
 
 ```bash
 #!/bin/bash
