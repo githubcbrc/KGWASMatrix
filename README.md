@@ -43,6 +43,8 @@ These are produced in parallel by splitting the accession files into `NUM_CHUNKS
 
 Once k-mer counts are done, all is left is to merge all the bins with the same index into a "matrix bin", and for that we use ``matrix_merge``. In a nutshell, `matrix_merge` takes all the files with the same name from different accessions, and merges them into one index.
 
+`matrix_merge` expects the following parameters: `<input path>, <accessions path>, <file index>, and <min occurence threshold (across panel)>`. `input path` is just the output path from the previous phase, or wherever the binned k-mers count index is saved. `accessions path` is the path to the file containing all accessions names, one per line (see ``accessions.txt`` for an example). `file index` is the bin number for the current merge. `min occurence threshold` is the minimum k-mer frequency for considering a k-mer present in the accession. As a matter of fact, this is a bit of misnomer as it is applied symmetrically, in the sense that k-mers with ``frequency < minimum threshold || frequency > panel size - minimum threshold`` have their counts set to zero against the corresponding accession.
+
 
 
 
