@@ -197,18 +197,18 @@ cd /your/project/directory
 
 # Ensure the command line parameters are passed
 if [ "$#" -ne 4 ]; then
-  echo "Usage: sbatch $0 <output path> <accessions path> <bin index> <min occurrence threshold>"
+  echo "Usage: sbatch $0 <input path> <accessions path> <bin index> <min occurrence threshold>"
   exit 1
 fi
 
 # Access command-line arguments
-OUTPUT_PATH=$1
+INPUT_PATH=$1
 ACCESSIONS_PATH=$2
 FILE_INDEX=$3
 MIN_OCCURRENCE_THRESHOLD=$4
 
 # Run matrix_merge
-./build/matrix_merge $OUTPUT_PATH $ACCESSIONS_PATH $FILE_INDEX $MIN_OCCURRENCE_THRESHOLD
+./build/matrix_merge $INPUT_PATH $ACCESSIONS_PATH $FILE_INDEX $MIN_OCCURRENCE_THRESHOLD
 
 # Example command usage:
 # sbatch submit_matrix_merge.sh ./output accessions.txt 35 6
@@ -222,12 +222,12 @@ This script will take parameters for the output path, accessions list, and minim
 
 # Check for required command line arguments
 if [ "$#" -ne 3 ]; then
-  echo "Usage: $0 <output path> <accessions path> <min occurrence threshold>"
+  echo "Usage: $0 <input path> <accessions path> <min occurrence threshold>"
   exit 1
 fi
 
 # Assign command-line arguments to variables
-OUTPUT_PATH=$1
+INPUT_PATH=$1
 ACCESSIONS_PATH=$2
 MIN_OCCURRENCE_THRESHOLD=$3
 
@@ -238,7 +238,7 @@ TOTAL_BINS=200
 for (( bin=1; bin<=TOTAL_BINS; bin++ ))
 do
   # Submit a SLURM job for each bin
-  sbatch submit_matrix_merge.sh $OUTPUT_PATH $ACCESSIONS_PATH $bin $MIN_OCCURRENCE_THRESHOLD
+  sbatch submit_matrix_merge.sh $INPUT_PATH $ACCESSIONS_PATH $bin $MIN_OCCURRENCE_THRESHOLD
 done
 
 echo "Submitted matrix merge jobs for all $TOTAL_BINS bins."
