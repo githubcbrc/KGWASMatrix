@@ -39,6 +39,7 @@ After the installation the ``./build`` folder will contain two key executables:`
 
 ### Data Preparation
 
+#### Data Path
 The ``kmer_count`` executable operates on accession files and requires FASTQ files to be located in the ``./data`` folder. The current setup primarily supports paired-end sequencing data files, (mainly because this was our use case). For each accession, you should have two files: for example, ``./data/A123_1.fq`` and ``./data/A123_2.fq`` for accession ``A123``. In the future, we plan to expand the utility's flexibility by introducing additional options to accommodate a wider range of sequencing data types.
 
  To proceed, establish a ``./data`` directory at the root of the project, and move your sequencing data into this directory, maintaining the format specified above. 
@@ -46,7 +47,7 @@ The ``kmer_count`` executable operates on accession files and requires FASTQ fil
 mkdir ./data
 mv path_to_your_sequencing_data/* ./data/
 ```
-If the data size is large, either consider using a simbolic link, 
+If the data size is large, either consider using a symbolic link, 
 ```bash
 ln -s /path_to_large_data ./data
 ```
@@ -62,16 +63,28 @@ In this command:
 ``$dataDir`` represents the path on your host system where your data is stored that you want to be accessible from within the container.
 ``/project/data`` is the path inside the container where this data will be accessible. This corresponds to the expected location where ``kmer_count`` will look for FASTQ files. This latter option is not practical for HPC scenarios, but in such cases, data transfer is usually unavoidable.
 
+#### File naming
+FASTQ files must be:
+* placed inside the ./data directory,
+* be uncompressed
+* named as follows: **${accession}_1.fq** or **${accession}_2.fq** where:
+  - ${accession} refers to a unique name of an accession from the panel of accessions under study
+  - _1 and _2 are the forward and reverse short reads
+  - FASTQ file extension must be **.fq**
 
+**Suggestion:**
+If storage is a limitation, consider decompressing the FASTQ files on-demand.
 
+#### List of Accessions
+Names of accessions should be kept in a text file e.g. _accessions.txt_, one name per line. Each name should have a matching pair of FASTQ files (as per naming format above).
 
 ## Usage Instructions
 ### K-mer Counting
-**Command:**
+#### Command:
 ```bash
 kmer_count <accession> <number of bins> <output folder>
 ```
-**Example:**
+#### Example:
 ```bash
 kmer_count A123 200 ./output
 ```
@@ -82,7 +95,17 @@ The ``kmer_count`` tool requires three parameters to operate: ``<accession>``, `
 2. **number of bins:** This indicates how many k-mer bins to create, which are used to shard the k-mer index. This number directly influences the granularity of parallelism during the ``matrix_merge`` phase.
 3. **output folder:** This is the directory where the results of the binned k-mer counts will be stored. It should be specified as a path relative to the root of the project or an absolute path.
 
+#### Singleton k-mers
+By default, k-mers that occur only once in the count are considered of error origin and are discarded by default.
 
+#### Multi-threading
+
+Computation is accelerated by splitting the accession files into `NUM_CHUNKS` chunks, creating a task per chunk, and running a thread pool to execute the tasks. So, ``NUM_CHUNKS`` governs the granularity of the parallelism for this phase, but the level of parallelism is defined by the number of threads in the pool (the current code uses all available threads on a computational node to maximize resource utilisation, but users can tweak that if they so wish). While ``NUM_CHUNKS`` is currently hard-coded to optimize performance through static array usage, future revisions may introduce dynamic configurations to increase flexibility. Access to the files is synchronized using a mutex array.
+
+#### K-mer size selection:
+@ADIL: please add some text about current default kmer size and how to change it should a user wish to do so.
+
+#### Output format:
 For example, `kmer_count A123 200 ./output` would load the reads of accession A123 from the `./data` folder, index the k-mer occurence using 200 bins, and write the results into the `./output` folder. This will create 200 files, one accession index per bin:
 
 ```bash
@@ -92,14 +115,21 @@ For example, `kmer_count A123 200 ./output` would load the reads of accession A1
 ./output/A123/200_nr.tsv
 ```
 
-These are produced in parallel by splitting the accession files into `NUM_CHUNKS` chunks, creating a task per chunk, and running a thread pool to execute the tasks. So, ``NUM_CHUNKS`` governs the granularity of the parallelism for this phase, but the level of parallelism is defined by the number of threads in the pool (the current code uses all available threads on a computational node to maximize resource utilisation, but users can tweak that if they so wish). While ``NUM_CHUNKS`` is currently hard-coded to optimize performance through static array usage, future revisions may introduce dynamic configurations to increase flexibility. Access to the files is synchronized using a mutex array.
+Each <index>_nr.tsv file has the following format:
+```
+<kmer_of_length_x><tab><count>
+```
+e.g. 
+```
+ATCGTAGCTGATGCAAGAGGGCCCTGGATTAGGAGAGCGTTGGAGAGCTG    21
+```
 
-### Merging K-mer Bins
-**Command:**
+### Merging K-mer Bins to create k-mer matrix
+#### Command:
 ```bash
 matrix_merge <input path> <accessions list> <bin index> <min occurrence threshold>
 ```
-**Example:**
+#### Example:
 ```bash
 matrix_merge ./output accessions.txt 35 6
 ```
@@ -111,23 +141,28 @@ Once k-mer counts are done, all is left is to merge all the bins with the same i
 1. **input path:** Specifies the directory where the binned k-mer counts are stored. Typically, this is the output directory from the ``kmer_count`` phase.
 2. **accessions path:** The path to a text file listing all accession names, one per line. Example file format can be found in ``accessions.txt`` included in this repository.
 3. **file index:** Indicates the specific bin number to merge in this operation.
-4. **min occurrence threshold:** Defines the minimum k-mer frequency necessary for a k-mer to be considered present in an accession, for binarizing the frequencies into presence/absence values. This is a bit of a misnomer as the threshold is applied in a dual manner:
-K-mers with a frequency below this threshold are excluded (`frequency < minimum threshold`).
-K-mers with a frequency exceeding the complement of this threshold relative to the panel size are also excluded (i.e., `frequency > panel size - minimum threshold`).
+4. **min occurrence threshold:** Defines the minimum and the maximum k-mer frequency in the panel. This frequency does not refer to the k-mer count in any specific accession but the k-mer frequency across the panel. K-mers with a frequency below this threshold are excluded (`frequency < minimum threshold`). And k-mers with a frequency exceeding the complement of this threshold relative to the panel size are also excluded (i.e., `frequency > panel size - minimum threshold`).
 
-For example, `matrix_merge ./output accessions.txt 35 6` will look for all folders under `./output` with names in `accessions.txt`, and merge all bins with index 35: 
+Let's say we have a panel of 1000 accessions for which the k-mer count was performed for each accession using the command `kmer_count <accession> 200 ./output`. To merge the k-mer counts and create a matrix, we run the following `matrix_merge ./output accessions.txt <index> 6` on each of the 200 bins (zero indexed i.e. 0-199). For example, `matrix_merge ./output accessions.txt 35 6` will look for all 1000 k-mer count files in `./output/<accessions>/35_nr.tsv` with names in `accessions.txt`, and merge all bins with index 35: 
+
 ```bash
 ./output/A100/35_nr.tsv
 ./output/A101/35_nr.tsv
 ...
 ./output/A123/35_nr.tsv
 ```
-This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatinating these partial matrices results in the full k-mer GWAS matrix.
+This creates a matrix with binary values representing k-mer present/absent (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatenating these partial matrices results in the full k-mer GWAS matrix.
 
-
-
-
-
+#### Output:
+* The output path from `matrix_merge` is `<matrix>_<min_occurrence_threshold>`.
+* Matrix files will have the following naming format: `<matrix>_<min_occurrence_threshold>/<index>_m.tsv`
+* Number of `<index>_m.tsv` should match the number of bins that was specified in the earlier k-mer count command `kmer_count <accession> <number of bins> <output folder>`
+* Each `<index>_m.tsv` has the format `<kmer_string><tab><accessionA 0|1><accessionB 0|1>...<accessionN 0|1>` where order of accessions (columns) is matching that in accessions.txt.
+   For example:
+  ```bash
+  > head -n1 matrix_6/35_m.tsv
+  > ATCGTAGCTGATGCAAGAGGGCCCTGGATTAGGAGAGCGTTGGAGAGCTG    0011001100001111100010101...1
+  ```
 
 ## HPC Job Examples
 
