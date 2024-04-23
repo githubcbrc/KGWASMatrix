@@ -131,7 +131,7 @@ This creates a binary matrix (using a k-mer minimum occurence of 6 for binarizin
 
 ## HPC Job Examples
 
-**k-mer count**
+### K-mer count
 
 Here is a basic SLURM job script example for running the ``kmer_count`` command on an HPC cluster. 
 
@@ -181,7 +181,7 @@ do
 done < "accessions.txt"
 ```
 
-**matrix_merge**
+### Matrix merge
 
 Here is an example of a SLURM job script for running the ``matrix_merge`` command. 
 ```bash
