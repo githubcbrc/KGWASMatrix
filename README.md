@@ -139,7 +139,7 @@ Here is a basic SLURM job script example for running the ``kmer_count`` command 
 #!/bin/bash
 #SBATCH --job-name=kmer_count_job       # Job name
 #SBATCH --nodes=1                       # Number of nodes
-#SBATCH --mem=256G                       # Memory needed per node
+#SBATCH --mem=256G                      # Memory needed per node
 #SBATCH --time=10:00:00                 # Time limit hrs:min:sec
 #SBATCH --output=kmer_count_%j.log      # Standard output and error log
 
@@ -188,7 +188,7 @@ Here is an example of a SLURM job script for running the ``matrix_merge`` comman
 #!/bin/bash
 #SBATCH --job-name=matrix_merge_job   # Job name
 #SBATCH --nodes=1                     # Number of nodes
-#SBATCH --mem=256G                     # Memory per node
+#SBATCH --mem=256G                    # Memory per node
 #SBATCH --time=05:00:00               # Time limit hrs:min:sec
 #SBATCH --output=matrix_merge_%j.log  # Standard output and error log
 
