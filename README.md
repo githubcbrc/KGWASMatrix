@@ -97,7 +97,7 @@ These are produced in parallel by splitting the accession files into `NUM_CHUNKS
 ### Merging K-mer Bins
 **Command:**
 ```bash
-matrix_merge <output path> <accessions list> <bin index> <min occurrence threshold>
+matrix_merge <input path> <accessions list> <bin index> <min occurrence threshold>
 ```
 **Example:**
 ```bash
