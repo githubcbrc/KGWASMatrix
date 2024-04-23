@@ -3,6 +3,11 @@
 
 **KGWASMatrix** is an optimized workflow designed for producing k-mer count matrices for large GWAS panels. For an in-depth explanation of the parallelization strategy for the k-mer counting pipeline, please consult the `KGWAS.pdf` document included in this repository.
 
+
+## How to Cite?
+
+If you find this work useful, please cite: Emile Cavalet-Giorsa, Andrea González-Muñoz, et al bioRxiv 2023.11.29.568958; doi: https://doi.org/10.1101/2023.11.29.568958
+
 ## Installation
 
 To install and set up the KGWASMatrix pipeline, follow these steps:
@@ -37,9 +42,9 @@ If you inspect the installation script, you can see that all it does is build a 
    ```
 After the installation the ``./build`` folder will contain two key executables:``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline. You have the option to run these executables directly from their current location, or you may choose to relocate them to a ``bin`` directory and include this directory in your system's ``$PATH`` for easier access. For execution on High-Performance Computing (HPC) clusters, it is recommended to transform the Docker image into a Singularity image. This conversion allows you to run the pipeline using ``singularity exec``. Alternatively, the executables can be run directly on the cluster, provided all the necessary libraries are installed.
 
-### Data Preparation
+## Data Preparation
 
-#### Data Path
+### Data Path
 The ``kmer_count`` executable operates on accession files and requires FASTQ files to be located in the ``./data`` folder. The current setup primarily supports paired-end sequencing data files, (mainly because this was our use case). For each accession, you should have two files: for example, ``./data/A123_1.fq`` and ``./data/A123_2.fq`` for accession ``A123``. In the future, we plan to expand the utility's flexibility by introducing additional options to accommodate a wider range of sequencing data types.
 
  To proceed, establish a ``./data`` directory at the root of the project, and move your sequencing data into this directory, maintaining the format specified above. 
@@ -63,7 +68,7 @@ In this command:
 ``$dataDir`` represents the path on your host system where your data is stored that you want to be accessible from within the container.
 ``/project/data`` is the path inside the container where this data will be accessible. This corresponds to the expected location where ``kmer_count`` will look for FASTQ files. This latter option is not practical for HPC scenarios, but in such cases, data transfer is usually unavoidable.
 
-#### File naming
+### File naming
 FASTQ files must be:
 * placed inside the ./data directory,
 * be uncompressed
@@ -75,7 +80,7 @@ FASTQ files must be:
 **Suggestion:**
 If storage is a limitation, consider decompressing the FASTQ files on-demand.
 
-#### List of Accessions
+### List of Accessions
 Names of accessions should be kept in a text file e.g. _accessions.txt_, one name per line. Each name should have a matching pair of FASTQ files (as per naming format above).
 
 ## Usage Instructions
@@ -172,11 +177,12 @@ Here is a basic SLURM job script example for running the ``kmer_count`` command 
 
 ```bash
 #!/bin/bash
-#SBATCH --job-name=kmer_count_job       # Job name
-#SBATCH --nodes=1                       # Number of nodes
-#SBATCH --mem=256G                      # Memory needed per node
-#SBATCH --time=10:00:00                 # Time limit hrs:min:sec
-#SBATCH --output=kmer_count_%j.log      # Standard output and error log
+#SBATCH --job-name=kmer_count_job_<accession>       # Job name
+#SBATCH --nodes=1                                   # Number of nodes. Hint: keep this to 1
+#SBATCH --mem=256G                                  # Memory needed per node. Hint: the more RAM is the better/safer
+#SBATCH --time=10:00:00                             # Time limit day-hrs:min:sec
+#SBATCH --output=kmer_count_<accession>_%j.log      # Standard output and error log
+#SBATCH --cpus-per-task=40                          # cpus
 
 # Set environment variables (if needed)
 export OMP_NUM_THREADS=$(nproc)
@@ -204,7 +210,7 @@ OUTPUT_DIR=$3
 
 **Script for Submitting Jobs for All Accessions (submit_all_accessions.sh)**
 
-Suppose you have a file named ``accessions.txt`` where each line contains an accession number. You can write a wrapper script that reads each accession from the file and submits a job for it.
+Suppose you have a file named ``accessions.txt`` where each line contains an accession name. You can write a wrapper script that reads each accession from the file and submits a job for it.
 
 ```bash
 #!/bin/bash
@@ -270,7 +276,7 @@ MIN_OCCURRENCE_THRESHOLD=$3
 TOTAL_BINS=200
 
 # Loop over each bin index
-for (( bin=1; bin<=TOTAL_BINS; bin++ ))
+for (( bin=0; bin<TOTAL_BINS; bin++ ))
 do
   # Submit a SLURM job for each bin
   sbatch submit_matrix_merge.sh $INPUT_PATH $ACCESSIONS_PATH $bin $MIN_OCCURRENCE_THRESHOLD
@@ -278,4 +284,26 @@ done
 
 echo "Submitted matrix merge jobs for all $TOTAL_BINS bins."
 ```
+
+## Hardware and performance considerations
+You should take the following considerations into account:
+
+### IO considerations
+The k-mer count step is highly IO intensive, especially if multiple jobs are executed in a shared HPC environment with a network file system. We strongly recommend the use of highly-performant storage solutions where available such as NVME SSDs and Burst Buffers. Traditional spinning hard drives will struggle to keep up with the high IO. Where fast storage is not available, we recommend the use of local scratch on the compute nodes to distrbute the IO workload.
+
+**Hint:** start small, assess then increase.
+
+
+### Memory considerations
+Memory is another posssible bottleneck for both the `kmer_cout` step and the `matrix_merge` step.
+
+#### k-mer counting stage:
+
+The genome size and sequencing depth are two deciding factors for RAM utilisation in the kmer_count step. As genome size increases and sequencing depth increases ( typically up to ~ 10x ), the size of the FASTQ files will also increase and has to fit in RAM along with computed k-mers and counts.
+
+#### matrix merging stage:
+
+Genome size and sequencing depth will also have a direct impact on the memory utilisation at this stage. The other factor is the number of accessions in the panel. As the number of panels increases, the number of k-mer count bins also increases and hence the RAM footprint will increase. Furthermore, bigger genomes are likely to have more k-mers compared with smaller genomes and with more variants sequenced, variant k-mers are also more likely to occur.
+
+To mitigate these bottlenecks, you should consider increasing the number of bins to spread k-mers across as many files as possible and as evenly as possible. However, you should also consider that the more file handles are opened, the more IO strain on the storage.
 
