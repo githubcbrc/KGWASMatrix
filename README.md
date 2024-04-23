@@ -216,7 +216,7 @@ MIN_OCCURRENCE_THRESHOLD=$4
 
 **Script for Submitting Jobs for All Bins (submit_all_bins.sh)**
 
-This script will take parameters for the output path, accessions list, and minimum occurrence threshold, and then loop through each bin index to submit a job.
+This script will take parameters for the input path, accessions list, and minimum occurrence threshold, and then loop through each bin index to submit a job.
 ```bash
 #!/bin/bash
 
