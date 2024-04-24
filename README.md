@@ -4,7 +4,7 @@
 **KGWASMatrix** is an optimized workflow designed for producing k-mer count matrices for large GWAS panels. For an in-depth explanation of the parallelization strategy for the k-mer counting pipeline, please consult the `KGWAS.pdf` document included in this repository.
 
 
-## How to Cite?
+## How to Cite
 
 If you find this work useful, please cite: Emile Cavalet-Giorsa, Andrea González-Muñoz, et al bioRxiv 2023.11.29.568958; doi: https://doi.org/10.1101/2023.11.29.568958
 
