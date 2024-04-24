@@ -160,6 +160,8 @@ Once k-mer counts are done, all is left is to merge all the bins with the same i
 3. **file index:** Indicates the specific bin number to merge in this operation.
 4. **min occurrence threshold:** Defines the minimum and the maximum k-mer frequency in the panel. This frequency does not refer to the k-mer count in any specific accession but the k-mer frequency across the panel. K-mers with a frequency below this threshold are excluded (`frequency < minimum threshold`). And k-mers with a frequency exceeding the complement of this threshold relative to the panel size are also excluded (i.e., `frequency > panel size - minimum threshold`).
 
+**Note**: in ``matrix_merge.cpp`` NUM_ACC is a hard-coded parameter specifying the number of accessions to be processed. Make sure to recompile the code with with your number of accessions by updating the value and re-running `./install`. 
+
 Let's say we have a panel of 1000 accessions for which the k-mer count was performed for each accession using the command `kmer_count <accession> 200 ./output`. To merge the k-mer counts and create a matrix, we run the following `matrix_merge ./output accessions.txt <index> 6` on each of the 200 bins (zero indexed i.e. 0-199). For example, `matrix_merge ./output accessions.txt 35 6` will look for all 1000 k-mer count files in `./output/<accessions>/35_nr.tsv` with names in `accessions.txt`, and merge all bins with index 35: 
 
 ```bash
