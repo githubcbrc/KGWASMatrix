@@ -13,7 +13,7 @@ If you find this work useful, please cite: Emile Cavalet-Giorsa, Andrea Gonzále
 ### Prerequisites
 #### **Docker: 
 For setting up an insulated environment for the compilation and execution of the codes, a Docker container is provided. Make sure you have Docker engine installed on your host.  See the `Dockerfile` for a container setup that includes all necessary dependencies.
-#### Singularity:(Stringly Recommanded) 
+#### Singularity:(Strongly Recommanded) 
 Singularity will be needed to convert the Docker image into singularity for running on HPC (see below), this would most likely already be installed on your HPC cluster.
 
 
