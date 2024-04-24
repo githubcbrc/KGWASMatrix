@@ -10,6 +10,16 @@ If you find this work useful, please cite: Emile Cavalet-Giorsa, Andrea Gonzále
 
 ## Installation
 
+### Prerequisites
+**Docker**: For setting up an insulated environment for the compilation and execution of the codes, a Docker container is provided. Make sure you have Docker engine installed on your host.  See the `Dockerfile` for a container setup that includes all necessary dependencies.
+**Singularity**: Make sure to convert the Docker image into a Singularity image for running on an HPC cluster.  
+
+Use the following command to convert the Docker image into Singularity:
+```bash
+singularity build gwasimg.sif docker-daemon://gwasimg
+```
+
+
 To install and set up the KGWASMatrix pipeline, follow these steps:
 
 ### Environment Setup
