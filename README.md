@@ -173,8 +173,8 @@ Let's say we have a panel of 1000 accessions for which the k-mer count was perfo
 This creates a matrix with binary values representing k-mer presence/absence (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatenating these partial matrices results in the full k-mer GWAS matrix.
 
 #### Output:
-* The output path from `matrix_merge` is `<matrix>_<min_occurrence_threshold>`.
-* Matrix files will have the following naming format: `<matrix>_<min_occurrence_threshold>/<index>_m.tsv`
+* The output path from `matrix_merge` is saved under `matrix_<min_occurrence_threshold>`.
+* Matrix files will have the following naming format: `matrix_<min_occurrence_threshold>/<index>_m.tsv`
 * Number of `<index>_m.tsv` should match the number of bins that was specified in the earlier k-mer count command `kmer_count <accession> <number of bins> <output folder>`
 * Each `<index>_m.tsv` has the format `<kmer_string><tab><accessionA 0|1><accessionB 0|1>...<accessionN 0|1>` where order of accessions (columns) is matching that in accessions.txt.
    For example:
