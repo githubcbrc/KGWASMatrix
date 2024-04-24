@@ -81,7 +81,7 @@ In this command:
 ``$dataDir`` represents the path on your host system where your data is stored that you want to be accessible from within the container.
 ``/project/data`` is the path inside the container where this data will be accessible. This corresponds to the expected location where ``kmer_count`` will look for FASTQ files. This latter option is not practical for HPC scenarios, but in such cases, data transfer is usually unavoidable.
 
-### File naming
+### File Naming
 FASTQ files must be:
 * placed inside the ./data directory,
 * be uncompressed
@@ -94,7 +94,7 @@ FASTQ files must be:
 If storage is a limitation, consider decompressing the FASTQ files on-demand.
 
 ### List of Accessions
-Names of accessions should be kept in a text file e.g. _accessions.txt_, one name per line. Each name should have a matching pair of FASTQ files (as per naming format above).
+Names of accessions should be kept in a text file e.g. _accessions.txt_, one name per line. Each name should have a matching pair of FASTQ files (as per the naming format above).
 
 ## Usage Instructions
 ### K-mer Counting
@@ -112,6 +112,8 @@ The ``kmer_count`` tool requires three parameters to operate: ``<accession>``, `
 1. **accession:** This parameter specifies the name of the accession (e.g., A123). It is used to identify and load the corresponding paired-end sequencing data files, e.g. ``./data/A123_1.fq`` and ``./data/A123_2.fq``.
 2. **number of bins:** This indicates how many k-mer bins to create, which are used to shard the k-mer index. This number directly influences the granularity of parallelism during the ``matrix_merge`` phase.
 3. **output folder:** This is the directory where the results of the binned k-mer counts will be stored. It should be specified as a path relative to the root of the project or an absolute path.
+
+**Note:** a k-mer size of 51 is used for this study, you may change the value of k in the ``./src/kmer_count.cpp`` and recompile the code by running `./install` again.
 
 #### Singleton k-mers
 By default, k-mers that occur only once in the count are considered of error origin and are discarded by default.
