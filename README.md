@@ -313,7 +313,7 @@ Memory is another posssible bottleneck for both the `kmer_cout` step and the `ma
 
 #### k-mer counting stage:
 
-The genome size and sequencing depth are two deciding factors for RAM utilisation in the kmer_count step. As genome size increases and sequencing depth increases ( typically up to ~ 10x ), the size of the FASTQ files will also increase and has to fit in RAM along with computed k-mers and counts.
+The genome size and sequencing depth are two deciding factors for RAM utilisation in the ``kmer_count`` step. As genome size increases and sequencing depth increases ( typically up to ~ 10x ), the size of the FASTQ files will also increase and has to fit in RAM along with computed k-mers and counts.
 
 #### matrix merging stage:
 
