@@ -163,10 +163,10 @@ Once k-mer counts are done, all is left is to merge all the bins with the same i
 Let's say we have a panel of 1000 accessions for which the k-mer count was performed for each accession using the command `kmer_count <accession> 200 ./output`. To merge the k-mer counts and create a matrix, we run the following `matrix_merge ./output accessions.txt <index> 6` on each of the 200 bins (zero indexed i.e. 0-199). For example, `matrix_merge ./output accessions.txt 35 6` will look for all 1000 k-mer count files in `./output/<accessions>/35_nr.tsv` with names in `accessions.txt`, and merge all bins with index 35: 
 
 ```bash
-./output/A100/35_nr.tsv
-./output/A101/35_nr.tsv
+./output/A000/35_nr.tsv
+./output/A001/35_nr.tsv
 ...
-./output/A123/35_nr.tsv
+./output/A999/35_nr.tsv
 ```
 This creates a matrix with binary values representing k-mer present/absent (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatenating these partial matrices results in the full k-mer GWAS matrix.
 
