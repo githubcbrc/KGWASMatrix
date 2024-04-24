@@ -141,7 +141,7 @@ e.g.
 ATCGTAGCTGATGCAAGAGGGCCCTGGATTAGGAGAGCGTTGGAGAGCTG    21
 ```
 
-### Merging K-mer Bins to create k-mer matrix
+### Merging K-mer Bins 
 #### Command:
 ```bash
 matrix_merge <input path> <accessions list> <bin index> <min occurrence threshold>
