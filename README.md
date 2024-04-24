@@ -11,15 +11,11 @@ If you find this work useful, please cite: Emile Cavalet-Giorsa, Andrea Gonzále
 ## Installation
 
 ### Prerequisites
-#### Docker: 
+#### **Docker: 
 For setting up an insulated environment for the compilation and execution of the codes, a Docker container is provided. Make sure you have Docker engine installed on your host.  See the `Dockerfile` for a container setup that includes all necessary dependencies.
-#### Singularity: 
-Make sure to convert the Docker image into a Singularity image for running on an HPC cluster.  
+#### Singularity:(Stringly Recommanded) 
+Singularity will be needed to convert the Docker image into singularity for running on HPC (see below), this would most likely already be installed on your HPC cluster.
 
-Use the following command to convert the Docker image into Singularity:
-```bash
-singularity build gwasimg.sif docker-daemon://gwasimg
-```
 
 
 To install and set up the KGWASMatrix pipeline, follow these steps:
@@ -52,7 +48,12 @@ If you inspect the installation script, you can see that all it does is build a 
    bash ../scripts/start_cont.sh
    docker exec -it gwascont bash /project/scripts/build_binaries.sh
    ```
-After the installation the ``./build`` folder will contain two key executables:``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline. You have the option to run these executables directly from their current location, or you may choose to relocate them to a ``bin`` directory and include this directory in your system's ``$PATH`` for easier access. For execution on High-Performance Computing (HPC) clusters, it is recommended to transform the Docker image into a Singularity image. This conversion allows you to run the pipeline using ``singularity exec``. Alternatively, the executables can be run directly on the cluster, provided all the necessary libraries are installed.
+After the installation the ``./build`` folder will contain two key executables:``kmer_count`` and ``matrix_merge``, which are all that is needed to run the pipeline. You have the option to run these executables directly from their current location, or you may choose to relocate them to a ``bin`` directory and include this directory in your system's ``$PATH`` for easier access. For execution on High-Performance Computing (HPC) clusters, it is recommended to transform the Docker image into a Singularity image. This conversion allows you to run the pipeline using ``singularity exec``. Alternatively, the executables can be run directly on the cluster, provided all the necessary libraries are installed.  
+Use the following command to convert the Docker image into Singularity:
+```bash
+singularity build gwasimg.sif docker-daemon://gwasimg
+```
+
 
 ## Data Preparation
 
