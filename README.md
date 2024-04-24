@@ -168,7 +168,7 @@ Let's say we have a panel of 1000 accessions for which the k-mer count was perfo
 ...
 ./output/A999/35_nr.tsv
 ```
-This creates a matrix with binary values representing k-mer present/absent (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatenating these partial matrices results in the full k-mer GWAS matrix.
+This creates a matrix with binary values representing k-mer presence/absence (using a k-mer minimum occurence of 6 for binarizing the index), which gets saved under `matrix_6/35_m.tsv`. Concatenating these partial matrices results in the full k-mer GWAS matrix.
 
 #### Output:
 * The output path from `matrix_merge` is `<matrix>_<min_occurrence_threshold>`.
