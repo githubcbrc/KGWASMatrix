@@ -317,7 +317,7 @@ The genome size and sequencing depth are two deciding factors for RAM utilisatio
 
 #### matrix merging stage:
 
-Genome size will also have a direct impact on the memory utilisation at this stage. The other factor is the number of accessions in the panel. As the number of panels increases, the total number of k-mer count bins also increases and hence the RAM footprint will increase. Furthermore, bigger genomes are likely to have more k-mers compared with smaller genomes and with more variants sequenced, variant k-mers are also more likely to occur.
+Genome size will also have a direct impact on the memory utilisation at this stage. The other factor is the number of accessions in the panel. As the panel size increases, the total number of k-mer count bins also increases and hence the RAM footprint will increase. Furthermore, bigger genomes are likely to have more k-mers compared with smaller genomes and with more variants sequenced, variant k-mers are also more likely to occur.
 
 To mitigate these bottlenecks, you should consider increasing the number of bins to spread k-mers across as many files as possible. The k-mer binning should ensure the bins are roughly even.  However, you should also consider that the more file handles are opened, the more IO strain on the storage.
 
