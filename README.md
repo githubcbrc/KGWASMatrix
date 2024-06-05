@@ -321,6 +321,6 @@ Genome size will also have a direct impact on the memory utilisation at this sta
 
 To mitigate these bottlenecks, you should consider increasing the number of bins to spread k-mers across as many files as possible. The k-mer binning should ensure the bins are roughly even.  However, you should also consider that the more file handles are opened, the more IO strain on the storage.
 
-#License
+# License
 This software is distributed under GNU GPL 3 licence.
 
